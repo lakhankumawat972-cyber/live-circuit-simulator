@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes: ["mongo_data:/data/db"]
+
+  simulation-service:
+    build: ./simulation-service
+    restart: unless-stopped # the API also works (and reports it) while this is down
+    ports: ["8000:8000"]
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://mongo:27017/live_circuit
+      SIMULATION_URL: http://simulation-service:8000
+      PORT: 5000
+    depends_on: [mongo, simulation-service]
+    ports: ["5000:5000"]
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:5000 # the browser calls the Node API; only the API calls Python
+    depends_on: [backend]
+    ports: ["5173:5173"]
+
+volumes:
+  mongo_data:

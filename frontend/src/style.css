@@ -1,0 +1,58 @@
+:root {
+  --bg: #f4f5f7; --panel: #ffffff; --line: #d5d9e0; --text: #1c2330; --muted: #6b7587;
+  --ok: #17803d; --ok-bg: #e6f4ea; --err: #b42318; --err-bg: #fdecea; --block: #8a5a00; --block-bg: #fff4d6;
+  --accent: #2f5bea;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151c; --panel: #1b202b; --line: #343b4a; --text: #e6e9ef; --muted: #9aa4b5;
+    --ok: #5ed388; --ok-bg: #16301f; --err: #ff8a80; --err-bg: #3a1b19; --block: #f3c15a; --block-bg: #382c0e;
+    --accent: #7c9bff;
+  }
+}
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { font: 14px/1.4 system-ui, sans-serif; background: var(--bg); color: var(--text); }
+.app { display: flex; flex-direction: column; height: 100%; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 12px; background: var(--panel); border-bottom: 1px solid var(--line); }
+header h1 { font-size: 16px; margin: 0 8px 0 0; }
+button, select, input, textarea { font: inherit; color: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 4px 8px; }
+button { cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.name { width: 180px; }
+.notice { color: var(--muted); font-size: 13px; }
+.badge { margin-left: auto; padding: 3px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.pending { background: var(--block-bg); color: var(--block); }
+.badge.warn { background: var(--block-bg); color: var(--block); }
+.badge.bad { background: var(--err-bg); color: var(--err); }
+.workspace { flex: 1; display: flex; min-height: 0; }
+.palette { width: 170px; padding: 10px; background: var(--panel); border-right: 1px solid var(--line); overflow: auto; }
+.palette h2 { font-size: 13px; margin: 0 0 4px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.hint { margin: 0 0 8px; color: var(--muted); font-size: 12px; }
+.palette-item { padding: 8px; margin-bottom: 8px; border: 1px solid var(--line); border-radius: 8px; cursor: grab; background: var(--bg); font-weight: 600; }
+.palette-item small { display: block; font-weight: 400; color: var(--muted); font-size: 11px; }
+.canvas { flex: 1; position: relative; }
+.netlist { position: absolute; right: 12px; top: 12px; max-width: 45%; max-height: 60%; overflow: auto; margin: 0; padding: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; font-size: 12px; z-index: 5; }
+
+.node { min-width: 150px; padding: 8px 10px; background: var(--panel); border: 2px solid var(--line); border-radius: 10px; color: var(--text); transition: border-color .15s, opacity .15s; }
+.node.selected { box-shadow: 0 0 0 2px var(--accent); }
+.node-title { font-weight: 700; margin-bottom: 6px; }
+.node input, .node textarea { width: 100%; margin: 4px 0; }
+.node textarea { resize: vertical; font-family: ui-monospace, monospace; }
+.port { position: relative; font-size: 12px; color: var(--muted); padding: 2px 0; }
+.port.in { padding-left: 8px; }
+.port.out { text-align: right; padding-right: 8px; }
+.react-flow__handle { width: 10px; height: 10px; background: var(--accent); border: 2px solid var(--panel); }
+.result { margin-top: 6px; padding: 3px 6px; border-radius: 6px; font-size: 12px; font-weight: 600; word-break: break-word; }
+.result.ok { background: var(--ok-bg); color: var(--ok); }
+.result.ok.big { font-size: 22px; text-align: center; }
+.result.error { background: var(--err-bg); color: var(--err); }
+.result.blocked { background: var(--block-bg); color: var(--block); }
+.result.muted { color: var(--muted); font-weight: 400; }
+.node.status-error { border-color: var(--err); box-shadow: 0 0 0 3px var(--err-bg); }
+.node.status-blocked { border-color: var(--block); border-style: dashed; }
+.node.status-ok { border-color: var(--ok); }
+.node.stale .result { opacity: .4; }
+.react-flow__edge.edge-bad .react-flow__edge-path { stroke: var(--err); stroke-dasharray: 5 4; }
